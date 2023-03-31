@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/stylesheets/fstyles.css">
+</head>
+<body>
+  
+{{>userHeader}}
+<div class="container-fluid ps-md-0">
+  <div class="row g-0">
+    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+    <div class="col-md-8 col-lg-6">
+      <div class="login d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 col-lg-8 mx-auto">
+              <h3 class="login-heading mb-4">Welcome </h3>
+
+              <!-- Sign In Form -->
+              <form action="/signup" method="post" id="form">
+                <div class="form-floating mb-3 input-control">
+                  <input type="text" class="form-control" id="name" placeholder="name" name="name" >
+                  <label for="name">Name</label>
+                   <div  class="error"></div>
+                </div>
+
+                  <div class="form-floating mb-3 input-control">
+                  <input type="tel" class="form-control" id="phone" placeholder="Phone" name="phone" >
+                  <label for="phone">Phone</label>
+                  <div  class="error"></div>
+                </div>
+
+                <div class="form-floating mb-3 input-control">
+                  <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email" >
+                  <label for="email">Email address</label>
+                  <div class="error"></div>
+                </div>
+                <div class="form-floating mb-3 input-control">
+                  <input type="password" class="form-control" id="password" placeholder="Password"  id="password"name="password">
+                  <label for="Password">Password</label>
+                  <div  class="error"></div>
+                </div>
+
+                <div class="form-floating mb-3 input-control">
+                  <input type="password" class="form-control" id="confirmPassword" placeholder="Password" name="confirmPassword" >
+                  <label for="confirmPassword">confirm Password</label>
+                  <div  class="error"></div>
+                </div>
+
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck">
+                  <label class="form-check-label" for="rememberPasswordCheck">
+                    Remember password
+                  </label>
+                </div>
+
+                <div class="d-grid">
+                  <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit" >Sign up</button>
+                  <div class="text-center">
+                    <a class="small" href="#">Forgot password?</a>
+                  </div>
+
+                   {{#if message1}}
+
+                   <div class="text-center mt-3">
+                    <h6 style="color: red;">Successfuly registered</h6>
+                  </div> 
+                     {{/if}}
+
+                  {{#if message2}}
+
+                   <div class="text-center mt-3">
+                    <h6 style="color: red;">User alredy exist</h6>
+                  </div> 
+                 {{/if}}
+
+               
+
+
+                  <div class="text-center mt-3">
+                    <p>Alredy have an account? <a class="small" href="/login">Login</a></p>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{>userFooter}}
+
+<script src="/javascripts/fValidation.js"></script>
+</body>
+</html> 

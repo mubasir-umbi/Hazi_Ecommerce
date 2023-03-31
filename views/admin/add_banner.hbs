@@ -1,0 +1,121 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Add Banner</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      form {
+        max-width: 500px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      input[type="checkbox"] {
+        display: block;
+        width:80%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0069d9;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Add Banner</h1>
+    <form action="/banners" method="POST">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required>
+      <label for="image">Image URL:</label>
+      <input type="text" id="image" name="image" required>
+      <label for="link">Link URL:</label>
+      <input type="text" id="link" name="link" required>
+      <label for="active">Active:</label>
+      <input type="checkbox" id="active" name="active" checked>
+      <input type="submit" value="Add Banner">
+    </form>
+  </body>
+</html> -->
+
+
+{{>adminHeader}}
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <style>
+      .narrow-container {
+        border-radius: 8px;
+        max-width: 500px;
+        margin: 0 auto;
+        border: 2px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="narrow-container mt-5">
+      <h1 class="text-center my-5">Add Banner</h1>
+      <form action="/admin/add_banner" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+          <label for="link">Link URL:</label>
+          <input type="text" class="form-control" id="link" name="link" required>
+        </div>
+        <div class="form-group">
+          <label for="image">Image:</label>
+          <input type="file" class="form-control-file" id="image" name="image" required>
+        </div>
+      
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="active" name="active" checked>
+          <label class="form-check-label" for="active">Active</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Banner</button>
+      </form>
+    </div>
+    
+    <!-- Include Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+

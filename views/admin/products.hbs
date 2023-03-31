@@ -1,0 +1,94 @@
+{{>adminHeader}}
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <span class="fs-5 d-none d-sm-inline">Menu</span>
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+
+                    <li class="nav-item">
+                        <a href="/admin/home" class="nav-link align-middle px-0 ">Home </a>
+                    </li>
+
+                    <li>
+                        <a href="/admin/manage_users" class="nav-link px-0 align-middle"> Users </a>
+                    </li>
+
+                    <li>
+                        <a href="/admin/category" class="nav-link px-0 align-middle btn btn-outline-primary">Category
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/orders" class="nav-link px-0 align-middle">Orders</a>
+                    </li>
+                    <li>
+                        <a href="/admin/product" class="nav-link px-0 align-middle"
+                            style="background-color: #fff; padding: 2px;"> Products </a>
+                    </li>
+                    <li>
+                        <a href="/admin/coupons" class="nav-link px-0 align-middle"> Coupons </a>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+        </div>
+        <div class="col py-3">
+
+
+            {{!-- <a class="btn btn-success" href="/admin/new_product">Add product</a> --}}
+            <div style="margin-left: 1080px;">
+                <a href="/admin/new_product" type="button" class="btn btn-primary"
+                    style="margin-left: ; margin-bottom: 15px;">Add Product</a>
+            </div>
+            <h6 style="color: red;" class="text-center mb-3 mt-3">{{proDelMsg}}</h6>
+
+
+            <table class="table table-hover" style="border-top: 1px solid black;">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">stock</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each productData}}
+                    <tr>
+                        <td>{{this.name}}</td>
+                        <td><img style="width 40px; height: 40px; " src="/uploads/{{this.imageUrl.[0]}}" alt=""></td>
+                        <td>{{this.description}}</td>
+                        <td>{{this.category.category}}</td>
+                        <td>${{this.price}}</td>
+                        <td>{{this.stock}}</td>
+
+                        {{#if this.is_blocked}}
+                        <td>
+                            <a href="/admin/edit_product/{{this._id}}" type="button" class="btn btn-warning">Edit</a>
+                            <a href="/admin/delete_product/{{this._id}}"
+                                onclick="return confirm ('Are you sure want to Unblock?')" type="button"
+                                class="btn btn-success">unblock</a>
+                        </td>
+
+                        {{else}}
+                        <td>
+                            <a href="/admin/edit_product/{{this._id}}" type="button" class="btn btn-warning">Edit</a>
+                            <a href="/admin/delete_product/{{this._id}}"
+                                onclick="return confirm ('Are you sure want to Block?')" type="button"
+                                class="btn btn-danger">Block</a>
+                        </td>
+                        {{/if}}
+                        
+                    </tr>
+                    {{/each}}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,295 @@
+const User       = require('../../model/userModel')
+const argon2     = require('argon2')
+const userHelper = require('../../helpers/user.helper')
+const Product    = require('../../model/productModel')
+const Category   = require('../../model/categoryModel')
+const Banners    = require('../../model/banner')
+
+let otp
+let userOtp
+let hashedPassword
+let userRegData
+let otpError = ''
+let isLogedin = false
+let userData
+let userEmail
+let productSearched = false
+let message2 
+
+
+//To load home
+
+const loadHome = async(req, res)=>{
+   
+   try {
+    const loadProData = await Product.find()
+    const loadCatData = await Category.find()
+    const banners     = await Banners.find()
+
+    console.log(banners);
+
+    res.render('user/home',{userData, loadProData, loadCatData, banners})
+    
+   } catch (error) {
+    console.log(error);
+   }
+}
+
+//All product page
+
+
+const getProduct = async(req, res)=>{
+  try {
+
+    const loadCatData = await Category.find()
+    const proData = await Product.find({is_blocked : false})
+
+        res.render('user/products', {proData, userData, loadCatData}) 
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+//Product details page
+
+
+const ProductView = async(req, res)=>{
+    try {
+      const proId = req.query.id
+      const proData = await Product.findById(proId)
+    
+
+      if (req.session.user) {
+        res.render('user/productview', {proData, userData})
+      }else{
+        res.render('user/productview', {proData})    
+      }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+//user login page
+
+
+const userLogin = (req, res)=>{
+
+    let regSuccessMsg = 'User registered sucessfully..!!'
+    let blockMsg      = 'Sorry something went wrong..!!'
+    let mailErr       = 'Incorrect email or password..!!'
+    let newpasMsg     = 'Your password reseted successfuly..!!'
+    message2 = false
+
+
+    if(req.session.mailErr){
+        res.render('user/login', {mailErr})
+        req.session.mailErr = false
+    }
+    else if(req.session.regSuccessMsg){
+        res.render('user/login', {regSuccessMsg})
+        req.session.regSuccessMsg = false
+    }
+    else if(req.session.userBlocked){
+        res.render('user/login', {blockMsg})
+        req.session.userBlocked = false
+    }
+    else if(req.session.LoggedIn){
+        res.render('user/login')
+        req.session.LoggedIn = false
+    }
+    else if(req.session.newPas){
+        res.render('user/login', {newpasMsg})
+        req.session.newPas = false
+    }
+    else{
+        res.render('user/login')
+    }
+}
+
+
+//user signup page
+
+const usersignup = (req, res)=>{
+    try {
+        res.render('user/signup')
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//To get otp page
+
+const getOtp = (req, res)=>{
+    try {
+        res.render('user/submitOtp')
+    } catch (error) {
+        console.log(error);
+    }
+   }
+
+
+
+//Submit otp and save user
+
+const submitOtp = async (req, res)=>{
+    try {
+        userOtp = req.body.otp
+
+        console.log('from submit otp');
+
+        if(userOtp == otp){
+            const user = new User({
+                name: userRegData.name,
+                email:userRegData.email,
+                mobile: userRegData.phone,
+                password: hashedPassword,
+                isVerified: true,
+                isBlocked: false  
+            })
+    
+            await user.save()
+
+            req.session.regSuccessMsg = true
+            res.redirect('/login')
+          }else{
+            otpError = 'incorrect otp'
+            res.render('user/submitOtp', {otpError})
+      }  
+    } catch (error) {
+        console.log(error);
+    }  
+}
+
+
+//To resend otp
+
+const resendOtp =  async (req, res)=>{
+    try {
+        res.redirect('/get_otp')
+        otp = await userHelper.verifyEmail(userEmail)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+//User login
+
+
+const doLogin = async(req, res)=>{
+    
+    try {
+       let email    = req.body.email
+       let password = req.body.password
+
+       userData = await User.findOne({ email: email });
+
+       if(userData){
+          if (await argon2.verify(userData.password, password)){ 
+
+                const isBlocked = userData.isBlocked
+
+                if(!isBlocked){
+                   console.log('log in success');
+
+                   req.session.LoggedIn = true
+                   req.session.user =  userData
+
+                   res.redirect('/')
+                } else {
+                   userData = null
+                   req.session.userBlocked = true
+                   res.redirect('/login')
+                }
+              }
+              else {
+                req.session.mailErr = true
+                res.redirect('/login')
+              }
+            }else{
+                req.session.mailErr = true
+                res.redirect('/login')
+                console.log('no user');  
+            }    
+     } catch (error) {
+        console.log(error);
+     }
+}
+
+//User logout
+
+
+const doLogout = async(req,res)=>{
+    try {
+        req.session.destroy()
+        userData = null
+        // req.session.LoggedIn = false
+        res.redirect('/login')
+
+    } catch (error) {
+        console.log(error.message);
+    }
+ }
+
+
+
+//user signup
+
+const doSignup = async(req, res)=>{
+
+    try {
+         hashedPassword  = await userHelper.hashPassword(req.body.password)
+         userEmail       = req.body.email 
+         userRegData     = req.body
+        
+
+        const userExist = await User.findOne({email: userEmail})
+        if(!userExist){
+              otp = await userHelper.verifyEmail(userEmail)
+              res.render('user/submitOtp')
+         }
+        else{
+            message2 = true
+
+            res.render('user/login', {message2})
+           
+        }
+
+    } catch (error) {
+        console.log(error);     
+    }   
+}
+
+
+const productSearch = async(req, res)=>{
+    const search = req.query.search;
+    console.log(search);
+
+    Product.find({ name: { $regex: search, $options: 'i' } }, function(error, products) {
+        if (error) {
+           console.log(error);
+           return res.status(500).send();
+         }
+
+         console.log(products, 'helooooooooooooooooooooo');
+            res.json(products);
+       });   
+    }
+
+
+module.exports = {
+    doLogout, 
+    getProduct, 
+    loadHome ,  
+    ProductView, 
+    userLogin, 
+    usersignup, 
+    doSignup, 
+    submitOtp, 
+    doLogin, 
+    getOtp,
+    resendOtp,
+    productSearch
+}

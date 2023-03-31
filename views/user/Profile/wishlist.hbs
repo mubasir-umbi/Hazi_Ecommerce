@@ -1,0 +1,220 @@
+{{>userHeader}}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+
+
+    <style>
+        body {
+            color: #69707a;
+        }
+
+        .img-account-profile {
+            height: 10rem;
+        }
+
+        .rounded-circle {
+            border-radius: 50% !important;
+        }
+
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        }
+
+        .card .card-header {
+            font-weight: 500;
+        }
+
+        .card-header:first-child {
+            border-radius: 0.35rem 0.35rem 0 0;
+        }
+
+        .card-header {
+            padding: 1rem 1.35rem;
+            margin-bottom: 0;
+            background-color: rgba(33, 40, 50, 0.03);
+            border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+        }
+
+        .form-control,
+        .dataTable-input {
+            display: block;
+            width: 100%;
+            padding: 0.875rem 1.125rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #69707a;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #c5ccd6;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0.35rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .nav-borders .nav-link.active {
+            color: #0061f2;
+            border-bottom-color: #0061f2;
+        }
+
+        .nav-borders .nav-link {
+            color: #69707a;
+            border-bottom-width: 0.125rem;
+            border-bottom-style: solid;
+            border-bottom-color: transparent;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-xl px-4" style="margin-top: 100px; margin-bottom: 100px;">
+        <!-- Account page navigation-->
+        <nav class="nav nav-borders">
+            <a class="nav-link " href="/profile">About me</a>
+            <a class="nav-link" href="/adresses">Manage Address</a>
+            <a class="nav-link active ms-0" href="/wishlist">Wishlist</a>
+            <a class="nav-link" href="/my_orders">My Orders</a>
+        </nav>
+        <hr class="mt-0 mb-4">
+        <div class="row">
+           
+
+
+            <div class="col-xl-12">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Wishlist</div>
+                    <div class="card-body">
+
+                        <table class="table table-hover">
+                            {{!-- <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead> --}}
+                            <tbody>
+
+                                {{#if wishItem}}
+
+                                {{#each wishItem}}
+
+                                <input type="hidden" name="product_name" value="{{this.name}}">
+                                <tr id="row{{this._id}}">
+                                    <td scope="row">{{this.name}}</td>
+                                    <td>${{this.price}}</td>
+                                    <td><a href="/productview?id={{this._id}}"><img style="width: 50px; height: auto;" src="/uploads/{{this.imageUrl.[0]}}"
+                                            alt="product image"></a></td>
+                                    <td>
+                                        <a class="mr-3 mt-2"> <i onclick="addToCartBtn('{{this._id}}')"
+                                                class="fa-sharp fa-solid fa-cart-plus fa-lg mt-4 mr-4"></i></a>
+                                        {{!-- <a onclick="removeFromWishlist('{{this._id}}')" class="btn mt-2"> Remove</a> --}}
+
+                                    
+                                        <a style="" onclick="removeFromWishlist('{{this._id}}','{{this._id}}')"><i class="fas fa-trash fa-lg"></i></a>
+             
+
+                                        {{!-- <a class=" mt-2"> <i onclick="remove('{{this._id}}')"
+                                                class="fa-regular fa-xmark-large"></class=></a> --}}
+
+
+
+                                    </td>
+                                </tr>
+                                {{/each}}
+
+                                {{else}}
+
+                                <div class="text-center">
+                                    <h1 class="mt-5">Your wishlist is empty..!</h1>
+
+                                     <a href="/product" class="btn btn-primary mt-4">Go to products</a>
+                                </div>
+
+                                {{/if}}
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+
+
+<script>
+
+ const ProName = document.getElementsByName('product_name')[0].value
+
+    const addToCartBtn = async (proId) => {
+
+        const response = await fetch(`/add_to_cart?id=${proId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': "application/json",
+            },
+        })
+
+        let data = await response.json()
+
+        if (data) {
+            swal("🥳!", `${ProName} added to Cart! `, "success");
+        }
+
+    }
+
+
+
+
+
+    const removeFromWishlist = async (id, idd) => {
+
+        let response = await fetch(`/remove_from_wishlist?id=${id}`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+
+        let data = await response.json()
+        console.log(data)
+        if (data) {
+            
+        swal("🥳!", `${ProName} Removed from wishlist! `, "success");
+        const iddd = document.getElementById('row'+idd).innerHTML = `  <div class="text-center">
+                                    <h1 class="mt-5">Your wishlist is empty..!</h1>
+
+                                     <a href="/product" class="btn btn-primary mt-4">Go to products</a>
+                                </div>`
+        }
+
+    }
+
+
+
+</script>

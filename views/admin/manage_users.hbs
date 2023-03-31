@@ -1,0 +1,84 @@
+
+
+
+{{>adminHeader}}
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <span class="fs-5 d-none d-sm-inline">Menu</span>
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    
+                    <li class="nav-item">
+                        <a href="/admin/home" class="nav-link align-middle px-0 ">Home </a>
+                    </li>
+
+                    <li>
+                        <a href="/admin/manage_users" class="nav-link px-0 align-middle" style="background-color: #fff; padding: 2px;"> Users </a>
+                    </li>
+
+                    <li>
+                        <a href="/admin/category" class="nav-link px-0 align-middle btn btn-outline-primary">Category </a>
+                    </li>
+                    <li>
+                        <a href="/admin/orders" class="nav-link px-0 align-middle">Orders</a>
+                    </li>
+                    <li>
+                        <a href="/admin/product"  class="nav-link px-0 align-middle"> Products </a>
+                    </li>
+                    <li>
+                        <a href="/admin/coupons"  class="nav-link px-0 align-middle" > Coupons </a>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+        </div>
+        <div class="col py-3" style="text-align: center;">
+
+            <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Mobie</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each allUsersData}}
+    <tr>
+      <th scope="row">{{@index}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.email}}</td>
+      <td>{{this.mobile}}</td>
+      <td>
+      {{#if this.isBlocked}}
+       <a id="button1"  class="btn btn-success" href="/admin/block_user/{{this.id}}" onclick="return confirm ('Are you sure want to Unblock?')"> 
+      Unblock 
+      </a>
+      {{else}}
+        <a id="button1"  class="btn btn-danger" href="/admin/block_user/{{this.id}}" onclick="return confirm ('Are you sure want to Block?')"> 
+      Block 
+      </a>
+      {{/if}}
+      </td>
+      
+    </tr>
+   {{/each}}
+   
+    
+  </tbody>
+</table>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script src="/helpers/admin_helper.js"></script>
+
+

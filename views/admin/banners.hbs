@@ -1,0 +1,126 @@
+<style>
+    body {
+            {
+                {
+                !-- background-color: #f2f6fc;
+                --
+            }
+        }
+
+        color:#69707a;
+    }
+
+    .img-account-profile {
+        height: 10rem;
+    }
+
+    .rounded-circle {
+        border-radius: 50% !important;
+    }
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+    .card .card-header {
+        font-weight: 500;
+    }
+
+    .card-header:first-child {
+        border-radius: 0.35rem 0.35rem 0 0;
+    }
+
+    .card-header {
+        padding: 1rem 1.35rem;
+        margin-bottom: 0;
+        background-color: rgba(33, 40, 50, 0.03);
+        border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+    }
+
+    .form-control,
+    .dataTable-input {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1.125rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1;
+        color: #69707a;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #c5ccd6;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.35rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .nav-borders .nav-link.active {
+        color: #0061f2;
+        border-bottom-color: #0061f2;
+    }
+
+    .nav-borders .nav-link {
+        color: #69707a;
+        border-bottom-width: 0.125rem;
+        border-bottom-style: solid;
+        border-bottom-color: transparent;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+</style>
+
+{{>adminHeader}}
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <span class="fs-5 d-none d-sm-inline">Menu</span>
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+
+                    <li class="nav-item">
+                        <a href="/admin/home" class="nav-link align-middle px-0 "
+                            style="background-color: #fff; padding: 2px;">Home </a>
+                    </li>
+
+                    <li>
+                        <a href="/admin/manage_users" class="nav-link px-0 align-middle"> Users </a>
+                    </li>
+
+                    <li>
+                        <a href="/admin/category" class="nav-link px-0 align-middle btn btn-outline-primary">Category
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/orders" class="nav-link px-0 align-middle">Orders</a>
+                    </li>
+                    <li>
+                        <a href="/admin/product" class="nav-link px-0 align-middle"> Products </a>
+                    </li>
+                    <li>
+                        <a href="/admin/coupons" class="nav-link px-0 align-middle"> Coupons </a>
+                    </li>
+                    <li>
+                        <a href="/admin/banners" class="nav-link px-0 align-middle"> Banner </a>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+        </div>
+        <div class="col py-3" style="text-align: center;">
+             <div style="margin-left: 1080px;">
+        <a href="/admin/add_banner" type="button" class="btn btn-primary"
+          style="margin-left: auto; margin-bottom: 15px;">Add banner</a>
+      </div>
+
+            <h1>Banners</h1>
+        </div>
+    </div>
+</div>

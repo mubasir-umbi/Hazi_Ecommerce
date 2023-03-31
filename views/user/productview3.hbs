@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .zoom-image-container {
+  
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+  }
+  
+  .zoom-image {
+    
+    position: relative;
+    
+  }
+  
+  .zoom-image img {
+    
+    cursor: zoom-in;
+    
+    
+    /* box-shadow: 0 18px 5px -15px rgba( 0, 0, 0, .5 ); */
+    
+  }
+  
+  .hover-image {
+    
+    position: fixed;
+    width:300px;
+    height: 300px;
+    
+    border-radius: 10%;
+    
+    transform: translate( -0%, -20% );
+
+    pointer-events: none;
+    
+    box-shadow: 0 0 10px rgba( 0, 0, 0, .1 );
+    
+  }
+    </style>
+
+<link rel="stylesheet" href="/stylesheets/imgzoom.css">
+<link rel="stylesheet" href="/stylesheets/style.css">
+<script src="../jquery-3.6.0.js"></script>
+<script src="/index.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+
+
+<body>
+
+
+<div class="container mt-5">
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-12">
+            <div class="card border-0 product-view-card col-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="images">
+   <form action="/user/addtoCart?id={{product._id}}" method="post">
+                            <div class="text-center col-12 zoom-image" data-image="./image/{{proDetil.imageUrl}}">
+                                <img class="col-12" id="main-image" src="/uploads/{{proDetil.imageUrl.[0]}} " width="520"
+                                    style="background-color:{{product.bgColor}};border-radius:30px;" />
+                            </div>
+
+                            <div class="thumbnail p-4">
+                                <img onclick="change_image(this)" src="/uploads/{{proDetil.imageUrl.[0]}}" width="100"
+                                    style="background-color:{{product.bgColor}};border-radius:21px;">
+                                <img onclick="change_image(this)" src="/uploads/{{proDetil.imageUrl.[1]}}" width="100"
+                                    style="background-color:{{product.bgColor}};border-radius:21px;">
+                                <img onclick="change_image(this)" src="/uploads/{{proDetil.imageUrl.[2]}}" width="100"
+                                    style="background-color:{{product.bgColor}};border-radius:30px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="product p-4" style="font-weight:800">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center"><a href="/user"
+                                        style="text-decoration: none; color: #6a6c6d;"><i
+                                            class="fa fa-long-arrow-left"></i> <span class="ml-1">Back</span></a></div>
+                                <a href="/cart"> <i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
+
+                            </div>
+                            <div class="mt-4 mb-3"> <span class="text-uppercase text-muted brand">
+                                    {{proDetil.categ}}
+                                </span>
+                                <h5 class="text-uppercase mb-5" style="font-size: 35px; font-weight:">
+                                    {{proDetil.name}}
+                                </h5>
+                                <div class="price d-flex flex-row align-items-center"> 
+                                <p class="text-uppercase mb-5" style="font-size: 25px; font-weight:">
+                                        $ {{proDetil.price}}/- 
+                                    
+                                    </p>
+
+                                    {{!-- <span
+                                        class="text-danger act-price" style="margin-right: 10px">
+                                    </span>
+                                    40% off --}}
+                                    <span class="p-1">
+              <a> <button onclick="wishlistClick('{{product._id}}')" class="btn border-0" style="color:red">
+                  <h3><i class="fa-solid fa-heart p-1" area-hidden="true"></i></h3></button>
+              </a>
+
+            </span>
+                                </div>
+                            </div>
+                            <p class="about">
+                                {{proDetil.description}}
+                            </p>
+                         <label>Enter the <span class="text-danger">Size</span></label>
+                         <input type="number" name="size" min="1" max="10" id="size" placeholder="Enter size" style="max-width:10em;" class="form-control mb-3 border-dark" required>
+                                <button type="submit" class="btn btn-outline-dark bg-dark text-light mb-5 p-3"
+                                    style="width: 100%; margin-top: 3vw; border-radius:50px;max-width:20em;">Add to cart</button>
+
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function change_image(image) {
+        const container = document.getElementById("main-image");
+        container.src = image.src;
+    }
+    document.addEventListener("DOMContentLoaded", function (event) {
+    });
+    // <//script>
+    jQuery(document).ready(function ($) {
+        $('.zoom-image img').click(function (event) {
+            const ix = $(this).offset().left;
+            const iy = $(this).offset().top;
+            console.log(ix + '-' + iy);
+            const mx = event.pageX;
+            const my = event.pageY;
+            console.log(mx + '-' + my);
+        })
+        $('.zoom-image img').hover(function () {
+            const img = $(this).attr('src');
+            $(this).after("<div class='hover-image' style='background-image: url(" + img + "); background-size: 300px;'></div>");
+            $(this).mousemove(function (event) {
+                // Mouse Position
+                const mx = event.pageX;
+                const my = event.pageY;
+                // Image Position
+                const ix = $(this).offset().left;
+                const iy = $(this).offset().top;
+                // Mouse Position Relavtive to Image
+                const x = mx - (ix);
+                const y = my - (iy);
+                // Image Height and Width
+                const w = $(this).width();
+                const h = $(this).height();
+                // Mouse Position Relative to Image, in %
+                const xp = (-x / w) * -100;
+                const yp = (-y / h) * -100;
+                $(this).parent().find('.hover-image').attr('style',
+                    "background-image: url(" + img + "); background-size: 1000px; background-repeat: no-repeat; background-position: " + xp + "% " + yp + "%; top: " + y + "px; left: " + x + "px;");
+            });
+        }, function () {
+            $(this).parent().find('.hover-image').remove();
+        });
+    });
+</script>
+
+<script>
+  function wishlistClick(data) {
+    const id = data;
+    fetch("/wishlist/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: id
+      })
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        if (data == "not logged in") {
+          window.location.href = "/login";
+        } else {
+          location.reload();
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+
+/*Login form css*/
+
+.login {
+  margin-top: 100px;
+  margin-bottom: 100px;
+
+  min-height: 80vh;
+  width: 40vw;
+  background-color: rgb(231, 233, 233);
+}
+
+/* .bg-image {
+  background-color: darkgray;
+  background-size: cover;
+  background-position: center;
+} */
+
+.login-heading {
+  font-weight: 300;
+}
+
+.btn-login {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+}
+
+/*Login form css*/

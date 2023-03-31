@@ -1,0 +1,131 @@
+{{>adminHeader}}
+
+<div class="container-xl px-4" style="margin-top: 10px; margin-bottom: 80px;">
+
+    <nav class="navbar navbar-light bg-light mb-4 p-10">
+
+        <form class="form-inline d-flex m-3">
+            <div class="form-group" style="margin-right: 2%;">
+                <label for="start-date">Start Date:</label>
+                <input type="date" class="form-control" id="start-date" min="" max="">
+            </div>
+            <div class="form-group" style="margin-right: 2%;">
+                <label for="end-date">End Date:</label>
+                <input type="date" class="form-control" id="end-date" min="" max="">
+            </div>
+            <div class="form-group mt-4 mr-2">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+
+
+        <div class="form-inline" style="margin-right: 2%;">
+            <button class="btn btn-outline-secondary" type="button">This Year </button>
+            <button onclick="getThisMOnthOrders()" class="btn btn-outline-secondary" type="button">This
+                Month</button>
+            <a href="/admin/current_month_orders" class="btn btn-outline-secondary" type="button">This Week</a>
+
+        </div>
+    </nav>
+
+    <div class="row">
+
+        <div class="col-xl-12">
+            <!-- Account details card-->
+            <div class="card mb-4">
+                <div class="card-header">Sales Report </div>
+                <div class="card-body ml-3 p-5">
+                    <ul>
+                        <span id="sales_report">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each salesData}}
+                                    <tr>
+                                        <td>{{this.date}}</td>
+                                        <td>{{this.product}}</td>
+                                        <td>{{this.quantity}}</td>
+                                        <td>{{this.price}}</td>
+                                        <td>{{this.total}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                          
+
+                            <nav aria-label="...">
+                                <ul class="pagination pagination-sm">
+                                    {{!-- <li class="page-item "> --}}
+                                        {{#for 1 totalPages 1}}
+                                    <li class="page-item">
+                                        <a class="page-link" href="/my_orders?page={{this}}">{{this}}</a>
+                                    </li>
+
+                                    {{/for}}
+                                
+                                </ul>
+                            </nav>
+
+                        </span>
+
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+   /*var today = new Date().toISOString().split('T')[0];
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    var maxDate = tomorrow.toISOString().split('T')[0];
+
+    { { !--document.getElementById("start-date").setAttribute("min", today); --} }
+    document.getElementById("start-date").setAttribute("max", maxDate);
+    { { !--document.getElementById("end-date").setAttribute("min", today); --} }
+    document.getElementById("end-date").setAttribute("max", maxDate);
+
+    // Ensure end date is greater than start date
+    var startDateField = document.getElementById("start-date");
+    var endDateField = document.getElementById("end-date");
+
+    startDateField.addEventListener("change", function () {
+        endDateField.setAttribute("min", startDateField.value);
+    });
+
+    endDateField.addEventListener("change", function () {
+        startDateField.setAttribute("max", endDateField.value);
+    });
+
+    
+    const getThisMOnthOrders = async () => {
+        const response = await fetch('/admin/current_month_orders', {
+            headers: { 'Content-Type': "application/json" }
+        })
+
+        const data = await response.json()
+        console.log(data)
+
+        if (data) {
+
+            const tableData = document.getElementById('sales_report')
+
+            tableData.innerHTML = 
+   
+
+    }
+    }*/
+
+</script>
