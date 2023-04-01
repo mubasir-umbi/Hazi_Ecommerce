@@ -14,74 +14,7 @@ const { handlebars } = require('hbs')
 
 
 
-// const myOrderss = async (req, res) => {
-//     try {
-//         const userData = req.session.user
-//         const userId   = userData._id
-//         const orders = await Orders.find({userId : userId})
 
-//         const now = moment() 
-
-//         const myOrders = orders.map(order => {
-//         const formattedDate = moment(order.date).format('MMMM D, YYYY');
-  
-//         return {
-//           ...order,
-//           date: formattedDate
-//           }
-//        })
-
-//         console.log(myOrders);
-//         myOrders.reverse()
-        
-//         if(req.session.user){
-//             res.render('user/profile/my_orders',{ userData, myOrders })
-//         }
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-
-
-
-
-// const myOrders = async (req, res) => {
-//     try {
-//         const userData = req.session.user
-//         const userId   = userData._id
-
-//         const page = parseInt(req.query.page) || 1
-//         const perPage = 5
-
-//         const skip = (page - 1) * perPage
-
-//         const orders = await Orders.find({ userId })
-//                                     .skip(skip)
-//                                     .limit(perPage)
-//                                     .sort({ date: -1 })
-
-//         const formattedOrders = orders.map(order => {
-//             const formattedDate = moment(order.date).format('MMMM D, YYYY');
-//             return { ...order.toObject(), date: formattedDate }
-//         })
-
-//         console.log(formattedOrders);
-
-//         const totalOrders = await Orders.countDocuments({ userId })
-//         const totalPages = Math.ceil(totalOrders / perPage)
-
-//         console.log(formattedOrders);
-//         res.render('user/profile/my_orders', {
-//             userData,
-//             myOrders: formattedOrders || [],
-//             currentPage: page,
-//             totalPages,
-//         })
-
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 
 
 
@@ -100,7 +33,7 @@ const myOrders = async (req, res) => {
 
       console.log(formattedOrders);
 
-      res.render('user/profile/my_orders', {
+      res.render('user/my_orders', {
           userData,
           myOrders: formattedOrders || [],
       })
@@ -141,7 +74,7 @@ const deliveredOrders = async (req, res) => {
     const totalPages = Math.ceil(totalOrders / perPage)
 
     console.log(formattedOrders);
-    res.render('user/profile/canceled_orders', {
+    res.render('user/canceled_orders', {
         userData,
         myOrders: formattedOrders || [],
         currentPage: page,
@@ -181,7 +114,7 @@ const canceledOrders = async (req, res) => {
       const totalPages = Math.ceil(totalOrders / perPage)
 
       console.log(formattedOrders);
-      res.render('user/profile/canceled_orders', {
+      res.render('user/canceled_orders', {
           userData,
           myOrders: formattedOrders || [],
           currentPage: page,
@@ -207,7 +140,7 @@ const canceledOrders = async (req, res) => {
 
         console.log(myOrderDetails);
        
-        res.render('user/profile/order_Details', { myOrderDetails, orderedProDet, userData, address })
+        res.render('user/order_Details', { myOrderDetails, orderedProDet, userData, address })
     } catch (error) {
         console.log(error);
     }

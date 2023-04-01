@@ -8,9 +8,12 @@ module.exports = {
  /// Load Profile/////
 
  loadProfile : (req, res) => {
-
+    try {     
     const userData = req.session.user
-    res.render('user/profile/about_me', {userData})
+    res.render('user/about_me', {userData})
+    } catch (error) {
+        console.log(error);
+    }
 },
 
 
@@ -23,7 +26,7 @@ module.exports = {
         const id       = userData._id
         
         const userAddress = await Address.find({userId : id})
-        res.render('user/profile/manage_address', {userAddress, userData})
+        res.render('user/manage_address', {userAddress, userData})
     } catch (error) {
         console.log(error);
     }
@@ -35,7 +38,7 @@ module.exports = {
 
 addNewAddress : (req, res) => {
     try {
-        res.render('user/profile/add_new_address')
+        res.render('user/add_new_address')
     } catch (error) {
         console.log(error);
     }
@@ -77,7 +80,7 @@ editDetails: (req, res) => {
 
     try {
         const userData = req.session.user
-        res.render('user/profile/edit_user', {userData})
+        res.render('user/edit_user', {userData})
     } catch (error) {
         console.log(error);
     }
