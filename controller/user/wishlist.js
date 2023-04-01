@@ -14,7 +14,7 @@ const loadWishlist = async(req, res) => {
        console.log(wishItem, 'wish itemmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
     
 
-        res.render('user/profile/wishlist', {userData, wishItem})
+        res.render('user/wishlist', {userData, wishItem})
     } catch (error) {
         console.log(error);
     }
