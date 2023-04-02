@@ -1,49 +1,6 @@
 {{>userHeader}}
 
-<head>
-	<script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
 
-	<script id="product-template" type="text/x-handlebars-template">
-  {{#each products}}
-    <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-      <!-- Block2 -->
-      <div class="block2">
-        <div class="block2-pic hov-img0">
-          <img src="/uploads/{{imageUrl.[0]}}" alt="IMG-PRODUCT">
-          <a href="/productview?id={{_id}}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
-            Quick View
-          </a>
-        </div>
-        <div class="block2-txt flex-w flex-t p-t-14">
-          <div class="block2-txt-child1 flex-col-l ">
-            <a href="/productview?id={{_id}}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-              {{name}}
-            </a>
-            <input type="hidden" id="name{{_id}}" value="{{name}}">
-            <input type="hidden" id="id" value="{{_id}}">
-            <span class="stext-105 cl3">
-              $ {{price}}
-            </span>
-          </div>
-          <div class="block2-txt-child2 flex-r p-t-3">
-            {{#if isWishlisted}}
-              <span id="click{{_id}}">
-                <img onclick="removeFromWishlist('{{_id}}')" id="icon-1" class="dis-block trans-04" src="images/icons/icon-heart-02.png" alt="ICON">
-              </span>
-            {{else}}
-              <span id="click{{_id}}">
-                <img onclick="addToWishlist('{{_id}}')" id="icon-2" class="dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-              </span>
-            {{/if}}
-          </div>
-        </div>
-      </div>
-    </div>
-  {{/each}}
-</script>
-
-
-</head>
 
 <body class="animsition">
 
@@ -52,11 +9,13 @@
 		<div class="container">
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-					<a href="/product" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+					<a href="/product" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1"
+						data-filter="*">
 						All Products
 					</a>
 					{{#each loadCatData}}
-					<a onclick="categoryFilter('{{this._id}}')" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1 pointer">
+					<a onclick="categoryFilter('{{this._id}}')"
+						class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1 pointer">
 						{{this.category}}
 					</a>
 					{{/each}}
@@ -72,27 +31,27 @@
 						Filter
 					</div>
 
-					
-						<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+
+					<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
 						<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
 						<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
 						Search
 					</div>
-					
+
 				</div>
 
 				<!-- Search product -->
 				<div class="dis-none panel-search w-full p-t-10 p-b-15">
-					
+
 					<div class="bor8 dis-flex p-l-15">
 						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
 							<i class="zmdi zmdi-search"></i>
 						</button>
-						
 
-						<input onchange="searchProducts()"  id="searchField" class="mtext-107 cl2 size-114 plh2 p-r-15" type="text"
-							name="search-product" placeholder="Search" > 
-							
+
+						<input onchange="searchProducts()" id="searchField" class="mtext-107 cl2 size-114 plh2 p-r-15"
+							type="text" name="search-product" placeholder="Search">
+
 					</div>
 				</div>
 
@@ -103,30 +62,35 @@
 							<div class="mtext-102 cl2 p-b-15">
 								Sort By
 							</div>
+							{{!-- <button onclick="sortProduct_az()" class="filter-link stext-106 trans-04">
+								a-z
+							</button> --}}
 
 							<ul>
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
+									<button onclick="sortProduct_az( 'asc' )" class="filter-link stext-106 trans-04">
 										a-z
-									</a>
+									</button>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
+									<a onclick="sortProduct_az( 'desc' )" class="filter-link stext-106 trans-04">
 										z-a
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
+									<button onclick="sortProductByPrice( 'asc' )"
+										class="filter-link stext-106 trans-04">
 										Price: Low to High
-									</a>
+									</button>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
+									<button onclick="sortProductByPrice( 'desc' )"
+										class="filter-link stext-106 trans-04">
 										Price: High to Low
-									</a>
+									</button>
 								</li>
 							</ul>
 						</div>
@@ -174,7 +138,7 @@
 								</li>
 							</ul>
 						</div> --}}
-{{!-- 
+						{{!--
 						<div class="filter-col3 p-r-15 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
 								Color
@@ -278,11 +242,11 @@
 					</div>
 				</div>
 			</div>
-           <span id="pro_container">
-			<div class="row isotope-grid" id="productList" >
-				
+			<span id="pro_container">
+				<div class="row isotope-grid" id="productList">
+
 					{{#each proData}}
-					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women" >
+					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 						<!-- Block2 -->
 						<div class="block2">
 							<div class="block2-pic hov-img0">
@@ -331,11 +295,11 @@
 						</div>
 					</div>
 					{{/each}}
-				
 
 
-				
-			</div>
+
+
+				</div>
 			</span>
 		</div>
 
@@ -343,16 +307,3 @@
 
 </body>
 <script src="/javascripts/products.js"></script>
-
-<script>
-
-
-
-
-    {{!-- const template = Handlebars.compile(document.getElementById('productListTemplate').innerHTML);
-
-    const html = template({ products: data });
-	console.log(data.length+"sghdhhsdhsdhsgdfhsfdfhg")
-    productList.innerHTML = html; --}}
-
-</script>

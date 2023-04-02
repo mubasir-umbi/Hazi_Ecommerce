@@ -50,6 +50,7 @@ router.post('/change_status', adminController.changeOrderStatus)
 router.get('/banners', adminController.loadBanner)
 router.get('/add_banner', adminController.addBanner)
 router.post('/add_banner', store.single('image'),  adminController.addBannerPost)
+router.get('/delete_banner', adminController.deleteBanner)
 
 // router.get('/sales_report', dashBoards.currentMonthOrder)
 router.get('/get_sales', dashBoards.getSales)

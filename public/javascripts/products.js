@@ -140,3 +140,33 @@ if (data) {
 }
 
 
+const sortProduct_az = async (sort) => {
+    console.log('am from sort product');
+    const response = await fetch (`/sort_product_az?sort=${sort}`, {
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+    }) 
+    const data = await response.json()
+    if(data){
+        console.log(data)
+        filteredDataDisplay(data)
+    }
+}
+
+
+
+const sortProductByPrice = async ( sort ) => {
+    console.log('am from sort product');
+    const response = await fetch (`/sort_product_price?sort=${sort}`, {
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+    }) 
+    const data = await response.json()
+    if(data){
+        console.log(data)
+        filteredDataDisplay(data)
+    }
+}
+

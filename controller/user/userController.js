@@ -4,6 +4,7 @@ const userHelper = require('../../helpers/user.helper')
 const Product    = require('../../model/productModel')
 const Category   = require('../../model/categoryModel')
 const Banners    = require('../../model/banner')
+const { log } = require('handlebars')
 
 let otp
 let userOtp
@@ -272,11 +273,36 @@ const productSearch = async(req, res)=>{
            console.log(error);
            return res.status(500).send();
          }
-
-         console.log(products, 'helooooooooooooooooooooo');
             res.json(products);
        });   
     }
+
+
+    const sortProduct_az = async(req, res) => {
+        try {
+            const { sort } = req.query
+
+            const products = await Product.find({is_blocked: false}).sort({ name: sort });
+            console.log(products);
+            res.json(products)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    const sortProductByPrice = async(req, res) => {
+        try {
+            const { sort } = req.query
+
+            const products = await Product.find({is_blocked: false}).sort({ price: sort });
+            console.log(products);
+            res.json(products)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
 
 module.exports = {
@@ -291,5 +317,7 @@ module.exports = {
     doLogin, 
     getOtp,
     resendOtp,
-    productSearch
+    productSearch,
+    sortProduct_az,
+    sortProductByPrice,
 }

@@ -120,7 +120,31 @@
           style="margin-left: auto; margin-bottom: 15px;">Add banner</a>
       </div>
 
-            <h1>Banners</h1>
+             <table class="table table-hover" style="border-top: 1px solid black;">
+        <thead>
+          <tr>
+           
+            <th scope="col">Title</th>
+            <th scope="col">Image</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each bannerData}}
+          <tr>
+            
+            <td>{{this.title}}</td>
+            <td><img style="width 40px; height: 40px; " src="/uploads/{{this.image}}" alt=" image"></td>
+            <td>
+              {{!-- <a href="/admin/edit_category/{{this.id}}" onclick="return confirm ('Are you sure want to edit?')"
+                type="button" class="btn btn-warning">Edit</a> --}}
+              <a href="/admin/delete_banner?id={{this.id}}" onclick="return confirm ('Are you sure want to delete?')"
+                type="button" class="btn btn-danger">Delete</a>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
         </div>
     </div>
 </div>

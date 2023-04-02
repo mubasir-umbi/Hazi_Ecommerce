@@ -45,22 +45,15 @@ const myOrders = async (req, res) => {
 
 
 
-const deliveredOrders = async (req, res) => {
 
-  console.log('am from delivery ordersssssssssssssssssssssssss')
+const filterOrders = async (req, res) => {
+
   try {
-
+    const { orderType } = req.query
     const userData = req.session.user
     const userId   = userData._id
 
-    const page = parseInt(req.query.page) || 1
-    const perPage = 10
-
-    const skip = (page - 1) * perPage
-
-    const orders = await Orders.find({ userId, status: 'Delivered' })
-                                .skip(skip)
-                                .limit(perPage)
+    const orders = await Orders.find({ userId, status: orderType })
                                 .sort({ date: -1 })
 
     const formattedOrders = orders.map(order => {
@@ -70,59 +63,10 @@ const deliveredOrders = async (req, res) => {
 
     console.log(formattedOrders);
 
-    const totalOrders = await Orders.countDocuments({ userId, status: 'Delivered' })
-    const totalPages = Math.ceil(totalOrders / perPage)
-
-    console.log(formattedOrders);
-    res.render('user/canceled_orders', {
-        userData,
-        myOrders: formattedOrders || [],
-        currentPage: page,
-        totalPages,
-    })
-
-} catch (error) {
-    console.log(error);
-}
-}
-
-
-const canceledOrders = async (req, res) => {
-  try {
-
-      const userData = req.session.user
-      const userId   = userData._id
-
-      const page = parseInt(req.query.page) || 1
-      const perPage = 10
-
-      const skip = (page - 1) * perPage
-
-      const orders = await Orders.find({ userId, status: 'Cancelled' })
-                                  .skip(skip)
-                                  .limit(perPage)
-                                  .sort({ date: -1 })
-
-      const formattedOrders = orders.map(order => {
-          const formattedDate = moment(order.date).format('MMMM D, YYYY');
-          return { ...order.toObject(), date: formattedDate }
-      })
-
-      console.log(formattedOrders);
-
-      const totalOrders = await Orders.countDocuments({ userId, status: 'Cancelled' })
-      const totalPages = Math.ceil(totalOrders / perPage)
-
-      console.log(formattedOrders);
-      res.render('user/canceled_orders', {
-          userData,
-          myOrders: formattedOrders || [],
-          currentPage: page,
-          totalPages,
-      })
+    res.json(formattedOrders)
 
   } catch (error) {
-      console.log(error);
+    console.log(error);
   }
 }
 
@@ -301,6 +245,5 @@ module.exports = {
     cancelOrder, 
     getInvoice,
     returnOrder,
-    deliveredOrders,
-    canceledOrders, 
+    filterOrders,
 }

@@ -21,6 +21,9 @@ router.post('/', userController.doLogin)
 router.get('/product', userController.getProduct)
 router.get('/productview', userController.ProductView)
 router.get('/products_filter', userController.productSearch)
+router.get('/sort_product_az', userController.sortProduct_az)
+router.get('/sort_product_price', userController.sortProductByPrice)
+
 
 router.get('/category_fil', category.catFilter)
 router.get('/category', category.categoryFilter)
@@ -69,8 +72,7 @@ router.get('/order_sucess', logedin, isBlocked, orders.orderSuccess)
 router.post('/cancel_order', logedin, isBlocked, orders.cancelOrder)
 router.get('/return_order', logedin, isBlocked, orders.returnOrder)
 
-router.get('/delivered_orders', logedin, isBlocked, orders.deliveredOrders)
-router.get('/canceled_orders', logedin, isBlocked, orders.canceledOrders)
+router.get('/filter_orders', logedin, isBlocked, orders.filterOrders)
 
 router.get('/get_invoice', logedin, isBlocked, orders.getInvoice)
 
@@ -80,6 +82,48 @@ router.get('/remove_from_wishlist', logedin, isBlocked, wishlist.removeFromWishL
 
 
 router.post('/validate_coupon', logedin, isBlocked, checkout.validateCoupon)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

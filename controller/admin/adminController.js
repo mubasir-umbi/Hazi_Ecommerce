@@ -592,17 +592,21 @@ const deleteProdImage =  async (req, res) => {
 }
 
 
-const loadBanner = (req, res) => {
+const loadBanner = async (req, res) => {
   try {
-    res.render('admin/banners')
+    
+    const bannerData = await Banner.find()
+    console.log(bannerData);
+    res.render('admin/banners' , {bannerData})
   } catch (error) {
     console.log(error)
   }
 }
 
-const addBanner = (req, res) => {
+const addBanner =  (req, res) => {
   try {
-    res.render('admin/add_banner')
+   
+    res.render('admin/add_banner', {bannerData})
   } catch (error) {
     console.log(error);
   }
@@ -628,6 +632,20 @@ const addBannerPost = async (req, res) => {
     console.log(error)
   }
 }
+
+
+
+const deleteBanner = async (req, res) => {
+  try {
+    const id = req.query.id;
+
+    await Coupon.findByIdAndDelete(id);
+
+    res.redirect("/admin/banners");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 
 
@@ -668,4 +686,5 @@ module.exports = {
   loadBanner,
   addBanner,
   addBannerPost,
+  deleteBanner,
 };
