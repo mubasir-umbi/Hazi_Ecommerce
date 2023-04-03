@@ -69,6 +69,11 @@ const loadDashboard = async(req, res) => {
         totalSales  += Number(data.totalOrders)
       })
 
+      const thisMonthOrder = odersByMonth[odersByMonth.length-1]
+      const thisMonthSales = revnueByMonth[revnueByMonth.length-1]
+
+      console.log(thisMonthOrder, thisMonthSales);
+
 
     //   const data = {
     //     months: months,
@@ -86,7 +91,7 @@ const loadDashboard = async(req, res) => {
       console.log(totalRevnue);
       console.log(totalSales);
 
-      res.render('admin/home', { revnueByMonth, months, odersByMonth, totalRevnue, totalSales})
+      res.render('admin/home', { revnueByMonth, months, odersByMonth, totalRevnue, totalSales, thisMonthOrder, thisMonthSales})
 
     })
     
@@ -95,110 +100,6 @@ const loadDashboard = async(req, res) => {
 
 
 
-
-// const currentMonthOrder =  async (req, res) => {
-//     try {
-//         const currentDate = moment()
-//         const page = req.params.page || 1
-//         const limit = 10;
-//         const skip = (page - 1) * limit
-//         const query = {
-//           date: {
-//             $gte: currentDate.startOf('month').toDate(),
-//             $lte: currentDate.endOf('month').toDate()
-//           }
-//         }
-//         const count = await Sale.countDocuments(query)
-//         const salesData = await Sale.find(query)
-//           .skip(skip)
-//           .limit(limit)
-//           .lean()
-//           .exec();
-    
-//         salesData.forEach((sale) => {
-//           sale.date = moment(sale.date).format("MMM DD, YYYY")
-//         })
-    
-//         const totalPages = Math.ceil(count / limit);
-//         res.render('admin/sales_report', { salesData, page, totalPages })
-//       } catch (error) {
-//     console.error(error)
-//     res.status(500).send('Server Error')
-//   }
-// }
-
-
-
-
-
-
-
-// const getSales = async (req, res) => {
-
-//     const {stDate, edDate, page} = req.query
-//     console.log(stDate, edDate)
-//     // const page = 1
-//     const perPage = 10
-
-
-//     const startDate = new Date(stDate);
-//     const endDate = new Date(edDate);
-
-//   const totalCount = await Order.countDocuments({
-//     date: {
-//       $gte: startDate,
-//       $lte: endDate,
-//     },
-//     status: 'delivered' // Filter by status
-//   });
-
-//   const orders = await Order.find({
-//     date: {
-//       $gte: startDate,
-//       $lte: endDate,
-//     },
-//     status: 'Delivered' // Filter by status
-//   })
-//     .sort({ date: 'desc' })
-//     .skip((page - 1) * perPage)
-//     .limit(perPage);
-
-//   const formattedOrders = orders.map((order) => ({
-    
-//     date: moment(order.date).format('YYYY-MM-DD'),
-//     ...order  
-//   }))
-
-//   console.log(formattedOrders);
-
-//   let  salesData = []
-
-//   formattedOrders.forEach((element) => {
-//     salesData.push( { 
-//         date : element.date,
-//         total : element._doc.total,
-//         payMethod : element._doc.paymentMethod,
-//         proName : element._doc.product,
-//     })
-//   })
-
-//   console.log(salesData, 'sales dataaaaa');
-
-//   let grandTotal = 0
-
-//   salesData.forEach(element => {
-//     grandTotal += element.total
-//   })
-
-//   console.log(grandTotal);
-
-//   res.json({
-//     grandTotal: grandTotal,
-//     orders: salesData,
-//     totalPages: Math.ceil(totalCount / perPage),
-//     currentPage: page,
-//   });
-// }
 
 
 
@@ -238,7 +139,6 @@ const loadDashboard = async(req, res) => {
         })
     })
     
-    console.log(salesData, 'sales dataaaaa');
     
     let grandTotal = 0
     
