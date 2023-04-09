@@ -4,6 +4,7 @@ const Order   = require('../../model/order')
 const Coupon  = require('../../model/coupon')
 const Product = require('../../model/productModel')
 const Razorpay = require('razorpay');
+const { log } = require('handlebars')
 
 
 const loadCheckout = async (req, res) => {
@@ -26,7 +27,16 @@ const loadCheckout = async (req, res) => {
     subTotal += val.total
     })
 
-        res.render('user/checkout/checkout', { userData, cart, addressData, subTotal })    
+
+    const now = new Date();
+    const availableCoupons = await Coupon.find({ 
+      expiryDate: { $gte: now },
+      usedBy: { $nin: [userId] }
+    });
+
+    console.log(availableCoupons , 'helooooooooooo coupon aaann');
+
+        res.render('user/checkout/checkout', { userData, cart, addressData, subTotal, availableCoupons })    
 }
 
 

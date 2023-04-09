@@ -322,6 +322,22 @@
             </div>
             <div class="text-center m-2" style="color: red;" id="couponMsg"> </div>
             <p class="text-center m-2" style="color: green;" id="sCoponMsg"> </p>
+
+            <div class="border" style="padding: 10px; border-radius:5px;">
+              <details >
+              <summary>Available coupons</summary>
+              {{#if availableCoupons}}
+              {{#each availableCoupons}}
+                <div class="d-flex justify-content-between" >
+                    <h6 class="my-2">{{this.code}}</h6>
+                    <p>Get {{this.discount}}% discount</p>
+                </div>
+              {{/each}}
+              {{else}}
+              <h6 class="mb-3">No coupon available</h6>
+              {{/if}}
+            </details>
+            </div>
           </div>
         </div>
       </div>

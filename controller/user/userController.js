@@ -265,26 +265,61 @@ const doSignup = async(req, res)=>{
 
 
 const productSearch = async(req, res)=>{
-    const search = req.query.search;
-    console.log(search);
+    const { search, catId } = req.body
 
-    Product.find({ name: { $regex: search, $options: 'i' } }, function(error, products) {
-        if (error) {
-           console.log(error);
-           return res.status(500).send();
-         }
+    console.log(search, catId);
+
+    if(catId){
+
+        console.log('cat id indddddd');
+        // Product.find({ category : catId }, { name: { $regex: search, $options: 'i' } }, function(error, products) {
+        //     if (error) {
+        //        console.log(error);
+        //        return res.status(500).send();
+        //      }
+        //         res.json(products);
+        //    });   
+
+        try {
+            const products = await Product.find({ category: catId, name: { $regex: search, $options: 'i' } });
             res.json(products);
-       });   
+          } catch (error) {
+            console.log(error);
+            return res.status(500).send();
+          }
+          
+          
+     }else{
+        console.log('cat id illaaaa');
+        try {
+            const products = await Product.find({ name: { $regex: search, $options: 'i' } });
+            console.log(products);
+
+            res.json(products);
+          } catch (error) {
+            console.log(error);
+            return res.status(500).send();
+          }
+          
+     }
     }
 
 
     const sortProduct_az = async(req, res) => {
         try {
-            const { sort } = req.query
+            const { sort, catId } = req.body
+          
+            if( catId ){
+                const products = await Product.find({ category : catId }, {is_blocked: false}).sort({ name: sort });
+                console.log(products);
+                res.json(products)   
+               
+            } else{
+                const products = await Product.find( {is_blocked: false}).sort({ name: sort });
+                console.log(products);
+                res.json(products)
+            }
 
-            const products = await Product.find({is_blocked: false}).sort({ name: sort });
-            console.log(products);
-            res.json(products)
         } catch (error) {
             console.log(error);
         }
@@ -293,11 +328,19 @@ const productSearch = async(req, res)=>{
 
     const sortProductByPrice = async(req, res) => {
         try {
-            const { sort } = req.query
+            const { sort, catId } = req.body
 
+            console.log(req.body);
+            if(catId){
+                const products = await Product.find({ category : catId }, {is_blocked: false}).sort({ price: sort });
+                console.log(products);
+                res.json(products)
+            }else{               
             const products = await Product.find({is_blocked: false}).sort({ price: sort });
             console.log(products);
             res.json(products)
+             }
+
         } catch (error) {
             console.log(error);
         }

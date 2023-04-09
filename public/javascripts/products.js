@@ -55,8 +55,13 @@ data.forEach((product) => {
 
 //// category wise filter  //////////
 
+let catId = false
 
 const categoryFilter = async (id) => {
+
+     catId = document.getElementById('cat_id'+id).value
+     console.log(catId, 'am cat idddd');
+
     const response = await fetch(`/category_fil?id=${id}`, {
         headers: { 'Content-Type': "application/json" }
     })
@@ -64,9 +69,11 @@ const categoryFilter = async (id) => {
     const data = await response.json()
     console.log(data);
      
-    if (data){
-     filteredDataDisplay(data)
-    }
+    if ( data.length > 0) {
+        filteredDataDisplay(data)
+      } else{
+          proContainer.innerHTML = `<h2 class="m-5">No product available</h2>`
+        }
 }
 
 
@@ -126,47 +133,71 @@ const searchProducts = async () => {
 const query = document.getElementsByName('search-product')[0].value
 console.log('I am from search', query);
 
-const response = await fetch(`/products_filter?search=${query}`, {
+const response = await fetch(`/products_filter`, {
+    method:'POST',
 headers: {
   'Content-Type': 'application/json'
 },
+body:JSON.stringify({
+    search : query,
+    catId: catId
+})
 });
 
 const data = await response.json();
+console.log(data.length, data)
 
-if (data) {
+
+
+if ( data.length > 0) {
   filteredDataDisplay(data)
-} 
+} else{
+    proContainer.innerHTML = `<h2 class="m-5">No product available</h2>`
+  }
 }
 
 
+
+
 const sortProduct_az = async (sort) => {
-    console.log('am from sort product');
-    const response = await fetch (`/sort_product_az?sort=${sort}`, {
+
+    const response = await fetch (`/sort_product_az`, {
+        method: 'POST',
         headers: {
             'Content-Type' : 'application/json'
         },
+        body:JSON.stringify({
+            sort: sort,
+            catId: catId
+        })
     }) 
     const data = await response.json()
-    if(data){
-        console.log(data)
+    if ( data.length > 0) {
         filteredDataDisplay(data)
-    }
+      } else{
+          proContainer.innerHTML = `<h2 class="m-5">No product available</h2>`
+        }
 }
 
 
 
 const sortProductByPrice = async ( sort ) => {
     console.log('am from sort product');
-    const response = await fetch (`/sort_product_price?sort=${sort}`, {
+    const response = await fetch (`/sort_product_price`, {
+        method: 'POST',
         headers: {
             'Content-Type' : 'application/json'
         },
+        body:JSON.stringify({
+            sort : sort,
+            catId: catId
+        })
     }) 
     const data = await response.json()
-    if(data){
-        console.log(data)
+    if ( data.length > 0) {
         filteredDataDisplay(data)
+      } else{
+          proContainer.innerHTML = `<h2 class="m-5">No product available</h2>`
     }
 }
 

@@ -14,6 +14,7 @@
 						All Products
 					</a>
 					{{#each loadCatData}}
+					<input type="text" hidden value="{{this._id}}" id='cat_id{{this._id}}'>
 					<a onclick="categoryFilter('{{this._id}}')"
 						class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1 pointer">
 						{{this.category}}

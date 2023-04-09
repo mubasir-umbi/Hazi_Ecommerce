@@ -20,9 +20,9 @@ router.post('/', userController.doLogin)
 
 router.get('/product', userController.getProduct)
 router.get('/productview', userController.ProductView)
-router.get('/products_filter', userController.productSearch)
-router.get('/sort_product_az', userController.sortProduct_az)
-router.get('/sort_product_price', userController.sortProductByPrice)
+router.post('/products_filter', userController.productSearch)
+router.post('/sort_product_az', userController.sortProduct_az)
+router.post('/sort_product_price', userController.sortProductByPrice)
 
 
 router.get('/category_fil', category.catFilter)
