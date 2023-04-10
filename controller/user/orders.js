@@ -95,7 +95,8 @@ const filterOrders = async (req, res) => {
 
  const orderSuccess = (req, res) => {
     try {
-        res.render('user/order_sucess')
+      const userData = req.session.user
+        res.render('user/order_sucess', {userData})
     } catch (error) {
         console.log(error);
     }
