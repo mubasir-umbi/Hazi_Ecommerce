@@ -25,10 +25,8 @@ const adminDoLogin = async (req, res) => {
     let adminEmail = req.body.email;
     let adminPassword = req.body.password;
 
-    console.log(req.body);
 
     adminData = await Admin.findOne({ email: adminEmail });
-    console.log(adminData);
 
     if (adminData) {
       if (adminPassword === adminData.password) {
@@ -205,7 +203,6 @@ const updateCategory = async (req, res) => {
 
 
     const catExist = await Category.findOne({ category: catName });
-    console.log(catExist);
 
     if (!catExist) {
       await Category.findByIdAndUpdate(
@@ -272,7 +269,6 @@ const newProduct = async (req, res) => {
     let productSaveMsg = "Product added successfuly..!!";
 
     const catogories = await Category.find();
-    console.log(catogories);
 
     if (req.session.productSave) {
       res.render("admin/addproduct", { productSaveMsg, catogories });
@@ -284,34 +280,6 @@ const newProduct = async (req, res) => {
     console.log(error);
   }
 };
-
-//To get orders page ///
-
-
-// const getOrders = async (req, res) => {
-//   try {
-//     const orders = await Orders.find();
-
-//     const now = moment();
-
-//     const ordersData = orders.map((order) => {
-//       const formattedDate = moment(order.date).format("MMMM D, YYYY");
-
-//       return {
-//         ...order,
-//         date: formattedDate,
-//       };
-//     });
-
-//     ordersData.reverse();
-
-//     console.log(ordersData);
-
-//     res.render("admin/orders", { ordersData });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 
 
@@ -448,7 +416,6 @@ const deleteProduct = async (req, res) => {
     { $set: { is_blocked: !isBlocked } },
     { new: true }
   );
-  console.log(prodData.is_blocked);
 
   res.redirect("/admin/product");
   req.session.proDelete = true;
@@ -469,7 +436,6 @@ const loadCoupon = async (req, res) => {
       };
     });
 
-    console.log(couponData);
     res.render("admin/coupon", { couponData });
   } catch (error) {
     console.log(error);
@@ -577,7 +543,6 @@ const changeOrderStatus = async (req, res) => {
 const deleteProdImage =  async (req, res) => {
   try {
 
-    console.log('hiii am from delete imageeeeeeeeeeeee');
     const { id, image } = req.query
     const product = await Product.findById(id);
 
@@ -596,7 +561,6 @@ const loadBanner = async (req, res) => {
   try {
     
     const bannerData = await Banner.find()
-    console.log(bannerData);
     res.render('admin/banners' , {bannerData})
   } catch (error) {
     console.log(error)
@@ -615,11 +579,8 @@ const addBanner =  (req, res) => {
 
 const addBannerPost = async (req, res) => {
   try {
-    console.log(req.body, 'bannerrrrrrrrrrrrrrrrrr')
-    console.log(req.file);
     const {title, link} = req.body
     const image  = req.file.filename 
-    console.log(image);
 
     const banner = new Banner ({
       title : title,
