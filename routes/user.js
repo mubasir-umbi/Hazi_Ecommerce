@@ -15,6 +15,8 @@ const { isLogin, isLogout, blockCheck : isBlocked , logedin } = auth
 
 
 
+
+
 router.get('/', userController.loadHome) 
 router.post('/', userController.doLogin) 
 
