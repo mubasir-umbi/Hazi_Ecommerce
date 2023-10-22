@@ -55,7 +55,6 @@ const loadCart = async (req, res) => {
     const user = await User.findOne({ _id: userId }).populate('cart.product').lean()
     const cart = user.cart; // Get the 'cart' array from the user document
 
-    console.log(cart, 'cartttt......................')
 
      let subTotal = 0
      cart.forEach((val)=>{
@@ -116,28 +115,6 @@ const updateCart = async (req, res)=>{
   }
 }
 
-
-
-
-  // const updateCart = async(req, res) => {
-  //   const userData = await req.session.user;
-  //   const frontendData = await req.body.datas;
-
-  //   try {
-  //     const updateCartItem = (cartItem, frontendData) => {
-  //     const updatedQuantity = frontendData.find(item => item.id === cartItem.id)?.quantity;
-  //     return {
-  //       ...cartItem,
-  //       quantity: updatedQuantity ?? cartItem.quantity // use updated quantity if available, otherwise keep existing quantity
-  //     };
-  //   };
-
-  //   const updatedCart = data[0].cart.map(cartItem => updateCartItem(cartItem, frontendData));
-
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
 
 
 
