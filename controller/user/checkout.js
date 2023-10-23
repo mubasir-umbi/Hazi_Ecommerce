@@ -12,14 +12,12 @@ const loadCheckout = async (req, res) => {
     const userData = req.session.user
     const userId   = userData._id
 
-    console.log(userData.wallet, 'hiiii am from checkout walletttttttttttttttttt');
 
     const addressData = await Address.find({userId : userId})
 
     const userDataa  = await User.findOne({ _id: userId }).populate("cart.product").lean()
     const cart       = userDataa.cart
 
-    console.log(cart, 'cart aaaannnnnnnnnnnnnnn')
 
     let subTotal = 0
     cart.forEach((val)=>{
@@ -33,8 +31,7 @@ const loadCheckout = async (req, res) => {
       expiryDate: { $gte: now },
       usedBy: { $nin: [userId] }
     });
-
-
+    
         res.render('user/checkout/checkout', { userData, cart, addressData, subTotal, availableCoupons })    
 }
 
