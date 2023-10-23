@@ -34,7 +34,6 @@ const loadCheckout = async (req, res) => {
       usedBy: { $nin: [userId] }
     });
 
-    console.log(availableCoupons , 'helooooooooooo coupon aaann');
 
         res.render('user/checkout/checkout', { userData, cart, addressData, subTotal, availableCoupons })    
 }
@@ -45,20 +44,10 @@ const checkStock = async (req, res) => {
     const userData = req.session.user;
     const userId = userData._id;
   
-    // console.log(userData.wallet, 'hiiii am from checkout walletttttttttttttttttt');
-  
-    // const addressData = await Address.find({ userId: userId });
   
     const userDataa = await User.findOne({ _id: userId }).populate("cart.product").lean();
     const cart = userDataa.cart;
   
-    console.log(cart, 'cart aaaannnnnnnnnnnnnnn');
-  
-    // let subTotal = 0;
-    // cart.forEach((val) => {
-    //   val.total = val.product.price * val.quantity;
-    //   subTotal += val.total;
-    // });
   
     let stock = [];
     cart.forEach((el) => {
@@ -67,19 +56,12 @@ const checkStock = async (req, res) => {
       }
     });
   
-    console.log(stock, 'stockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
   
     if (stock.length > 0) {
-      console.log('Sending JSON response with stock array');
       res.json(stock);
     } else{
         res.json('ok')
     }
-    // else {
-    //   console.log('Rendering checkout page');
-    //   res.render('user/checkout/checkout', { userData, cart, addressData, subTotal });
-  
-    // }
   };
   
 
@@ -224,7 +206,6 @@ const placeOrder = async(req, res) => {
 
        if ( addressId ){
         if( payMethod === 'cash-on-delivery' ){
-            console.log('hellooo from cash on delivery..................');
 
           saveOrder()
 
@@ -238,9 +219,6 @@ const placeOrder = async(req, res) => {
 
         if(payMethod === 'razorpay'){
               
-            console.log(req.body);
-            console.log('helooo from razoor pay..............................................');
-
             const amount = req.body.amount
 
             var instance = new Razorpay({ 
@@ -269,15 +247,11 @@ const placeOrder = async(req, res) => {
 
 
          if ( payMethod === 'wallet' ){
-            console.log('he he he am from wallet.................')
             const newWallet = req.body.updateWallet
             const userData  = req.session.user
 
-            console.log(newWallet, 'new wallettttttttttttttttttt');
              
            await User.findByIdAndUpdate(userId, { $set:{ wallet:newWallet }},  { new : true })
-        //    userData = updatedUser
-        //    req.session.user = userData
 
 
             saveOrder()
@@ -293,61 +267,10 @@ const placeOrder = async(req, res) => {
 }
 
 
-//// Validate coupon ////////////
-
-
-// const validateCoupon = async (req, res) => {
-//     try {
-//         console.log(req.body,  'bodyyyyyyyyyyyyyyyyyyyyyy');
-//         const {couponVal, subTotal}  = req.body
-//         const coupon   = await Coupon.findOne({code : couponVal})
-
-//         if(!coupon){
-//             res.json('invalid')
-//         }else{
-
-//             const couponId = coupon._id
-//             const discount = coupon.discount
-//             const expiryDt = coupon.expiryDate
-//             const userId   = req.session.user._id
-//             // console.log(coupon, 'helooo from coupon..../////////////');
-           
-//             const isCpnAlredyUsed = await Coupon.findOne({_id : couponId, usedBy: { $in: [userId]}})
-
-//             if(isCpnAlredyUsed){
-//                 /// alredy used
-//                 res.json('alredy used')
-//             }else{
-//                 /// apply coupon
-//                 await Coupon.updateOne({_id : couponId}, { $push: { usedBy: userId }})
-
-//                 const discnt      = Number(discount)
-//                 const discountAmt = (subTotal * discnt) / 100 
-//                 const newTotal    = subTotal - discountAmt
-
-//                 const user = User.findById(userId)
-
-//                 // console.log(user, '..........')
-
-//                 res.json({
-//                     discountAmt,
-//                     newTotal,
-//                     discount,
-//                     sucess : 'sucess'
-//                 })
-//             }
-//         }
-
-//     } catch (error) {
-//         console.log(error); 
-//     }
-// }
-
 
 
 const validateCoupon = async (req, res) => {
     try {
-        console.log(req.body, 'bodyyyyyyyyyyyyyyyyyyyyyy');
         const { couponVal, subTotal } = req.body;
         const coupon = await Coupon.findOne({ code: couponVal });
 
