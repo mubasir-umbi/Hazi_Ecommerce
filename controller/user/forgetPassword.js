@@ -35,7 +35,6 @@ let email
     try {
         console.log(req.body);
         email  = req.body.email 
-        console.log(email);
         const userDetails  = await User.findOne({email:email})
 
         if(userDetails){
