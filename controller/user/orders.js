@@ -231,7 +231,6 @@ easyinvoice.createInvoice(data, function (result) {
 } 
    
    catch (error) {
-    console.error(error);
     res.sendStatus(500);
   }
 };
