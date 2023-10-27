@@ -27,7 +27,6 @@ const loadHome = async(req, res)=>{
     const loadCatData = await Category.find()
     const banners     = await Banners.find()
 
-    console.log(banners);
 
     res.render('user/home',{userData, loadProData, loadCatData, banners})
     
@@ -138,7 +137,6 @@ const submitOtp = async (req, res)=>{
     try {
         userOtp = req.body.otp
 
-        console.log('from submit otp');
 
         if(userOtp == otp){
             const user = new User({
@@ -193,7 +191,6 @@ const doLogin = async(req, res)=>{
                 const isBlocked = userData.isBlocked
 
                 if(!isBlocked){
-                   console.log('log in success');
 
                    req.session.LoggedIn = true
                    req.session.user =  userData
@@ -212,7 +209,6 @@ const doLogin = async(req, res)=>{
             }else{
                 req.session.mailErr = true
                 res.redirect('/login')
-                console.log('no user');  
             }    
      } catch (error) {
         console.log(error);
@@ -269,16 +265,7 @@ const productSearch = async(req, res)=>{
 
     console.log(search, catId);
 
-    if(catId){
-
-        console.log('cat id indddddd');
-        // Product.find({ category : catId }, { name: { $regex: search, $options: 'i' } }, function(error, products) {
-        //     if (error) {
-        //        console.log(error);
-        //        return res.status(500).send();
-        //      }
-        //         res.json(products);
-        //    });   
+    if(catId){   
 
         try {
             const products = await Product.find({ category: catId, name: { $regex: search, $options: 'i' } });
@@ -290,7 +277,6 @@ const productSearch = async(req, res)=>{
           
           
      }else{
-        console.log('cat id illaaaa');
         try {
             const products = await Product.find({ name: { $regex: search, $options: 'i' } });
             console.log(products);
@@ -311,12 +297,10 @@ const productSearch = async(req, res)=>{
           
             if( catId ){
                 const products = await Product.find({ category : catId }, {is_blocked: false}).sort({ name: sort });
-                console.log(products);
                 res.json(products)   
                
             } else{
                 const products = await Product.find( {is_blocked: false}).sort({ name: sort });
-                console.log(products);
                 res.json(products)
             }
 
@@ -330,14 +314,11 @@ const productSearch = async(req, res)=>{
         try {
             const { sort, catId } = req.body
 
-            console.log(req.body);
             if(catId){
                 const products = await Product.find({ category : catId }, {is_blocked: false}).sort({ price: sort });
-                console.log(products);
                 res.json(products)
             }else{               
             const products = await Product.find({is_blocked: false}).sort({ price: sort });
-            console.log(products);
             res.json(products)
              }
 
