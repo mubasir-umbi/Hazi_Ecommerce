@@ -11,18 +11,18 @@ const verifyEmail = async(email)=>{
         otp = generateOtp()
 
        const trasporter =  nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
+            host: process.env.SMTP_HOST,
+            port: process.env.SMTP_PORT,
             secure: false,
             requireTLS: true,
             auth:{
-                user: 'mubasirumbi1@gmail.com',
-                pass: 'dlpyobkzuxjbkngi'
+                user: process.env.SMTP_USER,
+                pass: process.env.SMTP_PASS,
             }
         })
         
         const mailoptions = {
-                from:'mubasirumbi1@gmail.com',
+                from: process.env.SMTP_USER,
                 to: email,
                 subject: "For verify mail",
                 text: otp
